@@ -1,0 +1,57 @@
+import pyautogui
+import time
+import string
+
+time.sleep()
+usn = "1BM17IS092"
+usn_x = 1262
+usn_y = 374
+new_usn_x = 1273
+new_usn_y = 451
+pass_x = 1267
+pass_y = 480
+new_pass_y = 1265
+new_pass_y = 563
+enter_x = 1471
+enter_y = 556
+list_of_words = 'ab'
+complete_list = []
+ALLOWED_CHARACTERS = "abcdefghijklmnopqrstuvwxyz1234567890!@#$%^&*(ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+NUMBER_OF_CHARACTERS = len(ALLOWED_CHARACTERS)
+
+
+def characterToIndex(char):
+    return ALLOWED_CHARACTERS.index(char)
+
+def indexToCharacter(index):
+    if NUMBER_OF_CHARACTERS <= index:
+        raise ValueError("Index out of range.")
+    else:
+        return ALLOWED_CHARACTERS[index]
+
+def next(string):
+    if len(string) <= 0:
+        string.append(indexToCharacter(0))
+    else:
+        string[0] = indexToCharacter((characterToIndex(string[0]) + 1) % NUMBER_OF_CHARACTERS)
+        if characterToIndex(string[0]) is 0:
+            return list(string[0]) + next(string[1:])
+    return string
+
+
+def main():
+    sequence = list()
+    counter = 0
+    while True:
+        pyautogui.click(usn_x if counter <= 0 else new_usn_x, usn_y if counter <= 0 else new_usn_y)
+        pyautogui.typewrite(usn)
+        pyautogui.click(1789, 377)
+        pyautogui.click(pass_x if counter <= 0 else new_pass_x, pass_y if counter <= 0 else new_pass_y)
+        sequence = next(sequence)
+        pyautogui.typewrite(sequence)
+        pyautogui.press('enter')
+        time.sleep(3)
+        counter += counter + 1
+
+
+main()
